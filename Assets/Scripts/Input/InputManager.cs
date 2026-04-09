@@ -47,6 +47,11 @@ public class InputManager : Singleton<InputManager>
         SetActionMap(ActionMap.Gameplay);
     }
 
+    private void OnDisable()
+    {
+        DisableAllActionMaps();
+    }
+
     private void DisableAllActionMaps()
     {
         foreach (var actionMap in _controls.asset.actionMaps)
