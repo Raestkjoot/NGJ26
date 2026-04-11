@@ -1380,8 +1380,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
   _bird: {fileID: 1854322058}
-  _turnSpeed: 160
   _moveSpeed: 3
+  _acceleration: 3
+  _turnSpeed: 2
   _diveSpeed: 1.5
   _diveHeight: 1.6
 --- !u!1 &1553184722
