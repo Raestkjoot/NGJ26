@@ -62,6 +62,7 @@ public class InputManager : Singleton<InputManager>
 
         Vector2 screenCenter = new Vector2(Screen.width / 2.0f, Screen.height / 2.0f);
         moveDirection = (mousePosition - screenCenter).normalized;
+        _lastRegisteredMousePosition = mousePosition;
         
         return moveDirection;
     }
