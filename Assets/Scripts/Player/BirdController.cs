@@ -6,18 +6,21 @@ public class BirdController : MonoBehaviour
 {
     [Header("Basic flying")]
     [SerializeField] private Transform _bird;
-    [SerializeField] private float _turnSpeed = 160.0f;
     [SerializeField] private float _moveSpeed = 3.0f;
+    [SerializeField] private float _acceleration = 3.0f;
+    [SerializeField] private float _turnSpeed = 2.0f;
     
     [Header("Yoinking")]
     [SerializeField] private float _diveSpeed = 1.5f;
     [SerializeField] private float _diveHeight = 1.6f;
 
     private float _cruiseHeight;
+    private Vector3 _moveDirection;
 
     private void Start()
     {
         _cruiseHeight = _bird.position.y;
+        _moveDirection = _bird.forward;
     }
 
     private void Update()
@@ -35,15 +38,17 @@ public class BirdController : MonoBehaviour
         {
             return;
         }
-        
+
         Quaternion goalRotation = Quaternion.LookRotation(new Vector3(moveInput.x, 0.0f, moveInput.y), Vector3.up);
-        _bird.rotation = Quaternion.RotateTowards(_bird.rotation, goalRotation, _turnSpeed * Time.deltaTime);
+        _bird.rotation = Quaternion.Slerp(_bird.rotation, goalRotation, _turnSpeed * Time.deltaTime);
     }
 
     private void MoveForward()
     {
         Vector3 forwardVector = _bird.forward;
-        transform.Translate(forwardVector * (_moveSpeed * Time.deltaTime));
+
+        _moveDirection = Vector3.Lerp(_moveDirection, _bird.forward, _acceleration * Time.deltaTime);
+        transform.Translate(_moveDirection * (_moveSpeed * Time.deltaTime));
     }
 
     private void UpdateYoink()
