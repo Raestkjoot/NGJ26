@@ -11,10 +11,10 @@ TagManager:
   - Player
   - Water
   - UI
-  - 
-  - 
-  - 
-  - 
+  - Yoinkable
+  - BigYoinkable_Visual
+  - MediumYoinkable_Visual
+  - SmallYoinkable_Visual
   - 
   - 
   - 
