@@ -18,10 +18,54 @@ public class InputManager : Singleton<InputManager>
         UI
     }
     
+    public enum InputType
+    {
+        MouseAndKeyboard,
+        Gamepad
+    }
+    
     private Controls _controls;
+    private InputType _currentInputType;
+    private Vector2 _lastRegisteredMousePosition;
 
-    public Controls.GameplayActions Gameplay => _controls.Gameplay;
+    private const float MouseMoveThreshold = 1.0f;
+    
     public Controls.UIActions UI => _controls.UI;
+    public InputAction Yoink => _controls.Gameplay.Yoink;
+
+    public Vector2 GetMoveDirection()
+    {
+        _controls.Gameplay.Move.ReadValue<Vector2>();
+
+        Vector2 moveDirection = _controls.Gameplay.MoveGamepad.ReadValue<Vector2>();
+
+        // If we get input from a gamepad that goes past deadzone, we switch to gamepad controls
+        if (moveDirection != Vector2.zero)
+        {
+            _currentInputType = InputType.Gamepad;
+            return moveDirection;
+        }
+        
+        Vector2 mousePosition = _controls.Gameplay.Move.ReadValue<Vector2>();
+
+        // If we are using gamepad controls, we want to move the mouse past a threshold before we switch back to mouse controls
+        if (_currentInputType == InputType.Gamepad)
+        {
+            float mouseDelta = (_lastRegisteredMousePosition - mousePosition).magnitude;
+            if (mouseDelta < MouseMoveThreshold)
+            {
+                return moveDirection;
+            }
+        }
+        
+        _currentInputType = InputType.MouseAndKeyboard;
+
+        Vector2 screenCenter = new Vector2(Screen.width / 2.0f, Screen.height / 2.0f);
+        moveDirection = (mousePosition - screenCenter).normalized;
+        
+        return moveDirection;
+    }
+    
     
     public void SetActionMap(ActionMap actionMap)
     {

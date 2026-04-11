@@ -29,16 +29,19 @@ public class BirdController : MonoBehaviour
 
     private void UpdateRotation()
     {
-        float sidewayInput = InputManager.Instance.Gameplay.Move.ReadValue<Vector2>().x;
-
-        if (sidewayInput > 0.1f)
-        {
-            _birdSprite.Rotate(Vector3.up, _rotationSpeed * Time.deltaTime, Space.World);
-        }
-        else if (sidewayInput < -0.1f)
-        {
-            _birdSprite.Rotate(Vector3.up, -_rotationSpeed * Time.deltaTime, Space.World);
-        }
+        // TODO: reimplement movement using moveDirection rather than rotation
+        Vector2 moveInput = InputManager.Instance.GetMoveDirection();
+        
+        // float sidewayInput = InputManager.Instance.Gameplay.Move.ReadValue<Vector2>().x;
+        //
+        // if (sidewayInput > 0.1f)
+        // {
+        //     _birdSprite.Rotate(Vector3.up, _rotationSpeed * Time.deltaTime, Space.World);
+        // }
+        // else if (sidewayInput < -0.1f)
+        // {
+        //     _birdSprite.Rotate(Vector3.up, -_rotationSpeed * Time.deltaTime, Space.World);
+        // }
     }
 
     private void MoveForward()
@@ -49,7 +52,7 @@ public class BirdController : MonoBehaviour
 
     private void UpdateYoink()
     {
-        if (InputManager.Instance.Gameplay.Jump.IsPressed())
+        if (InputManager.Instance.Yoink.IsPressed())
         {
             if (_birdSprite.position.y > (_cruiseHeight - _diveHeight))
             {
