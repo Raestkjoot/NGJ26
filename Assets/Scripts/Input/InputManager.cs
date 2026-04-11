@@ -43,6 +43,7 @@ public class InputManager : Singleton<InputManager>
         if (moveDirection != Vector2.zero)
         {
             _currentInputType = InputType.Gamepad;
+            SetCursorVisibility(false);
             return moveDirection;
         }
         
@@ -58,6 +59,7 @@ public class InputManager : Singleton<InputManager>
             }
         }
         
+        SetCursorVisibility(true);
         _currentInputType = InputType.MouseAndKeyboard;
 
         Vector2 screenCenter = new Vector2(Screen.width / 2.0f, Screen.height / 2.0f);
@@ -66,7 +68,12 @@ public class InputManager : Singleton<InputManager>
         
         return moveDirection;
     }
-    
+
+    public void SetCursorVisibility(bool isVisible)
+    {
+        Cursor.visible = isVisible;
+        Cursor.lockState = isVisible ? CursorLockMode.None : CursorLockMode.Locked;
+    }
     
     public void SetActionMap(ActionMap actionMap)
     {
