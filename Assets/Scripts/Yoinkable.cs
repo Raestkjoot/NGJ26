@@ -19,10 +19,11 @@ public class Yoinkable : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            if (other.transform.parent.TryGetComponent<BirdController>(out var bird) 
-                && bird.YoinkLevel >= _size)
+            if (other.TryGetComponent<Yoinker>(out var yoinker) 
+                && yoinker.YoinkLevel >= _size)
             {
                 Debug.Log("Get yoinked!");
+                yoinker.AttachYoinkable(transform);
             }
             else
             {

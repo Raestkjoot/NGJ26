@@ -12,11 +12,8 @@ public class BirdController : MonoBehaviour
     [Header("Yoinking")]
     [SerializeField] private float _diveSpeed = 1.5f;
     [SerializeField] private float _diveHeight = 1.6f;
-    [SerializeField] private Yoinkable.YoinkSize _yoinkLevel = Yoinkable.YoinkSize.Small;
 
     private float _cruiseHeight;
-
-    public Yoinkable.YoinkSize YoinkLevel => _yoinkLevel;
 
     private void Start()
     {
