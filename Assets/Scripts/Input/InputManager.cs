@@ -41,8 +41,9 @@ public class InputManager : Singleton<InputManager>
         }
     }
 
-    private void Start()
+    protected override void Awake()
     {
+        base.Awake();
         _controls = new();
         SetActionMap(ActionMap.Gameplay);
     }
