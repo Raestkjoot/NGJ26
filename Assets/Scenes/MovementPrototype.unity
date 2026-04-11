@@ -1077,6 +1077,8 @@ MonoBehaviour:
   _birdSprite: {fileID: 1676846086}
   _rotationSpeed: 160
   _moveSpeed: 3
+  _diveSpeed: 1.5
+  _diveHeight: 1.6
 --- !u!1 &1676846084
 GameObject:
   m_ObjectHideFlags: 0
