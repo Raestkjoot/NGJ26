@@ -16,9 +16,12 @@ public class BirdController : MonoBehaviour
 
     private float _cruiseHeight;
     private Vector3 _moveDirection;
+    private SpriteRenderer _birdSprite;
 
     private void Start()
     {
+        _birdSprite = GetComponentInChildren<SpriteRenderer>();
+        
         _cruiseHeight = _bird.position.y;
         _moveDirection = _bird.forward;
     }
@@ -41,6 +44,9 @@ public class BirdController : MonoBehaviour
 
         Quaternion goalRotation = Quaternion.LookRotation(new Vector3(moveInput.x, 0.0f, moveInput.y), Vector3.up);
         _bird.rotation = Quaternion.Slerp(_bird.rotation, goalRotation, _turnSpeed * Time.deltaTime);
+
+        // Flip sprite based on orientation
+        _birdSprite.flipY = Vector3.Dot(_bird.forward, Vector3.right) > 0.0f;
     }
 
     private void MoveForward()
