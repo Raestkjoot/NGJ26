@@ -1,7 +1,6 @@
 using System;
 using UnityEngine;
 
-[RequireComponent(typeof(Collider))]
 public class Yoinkable : MonoBehaviour
 {
     public enum YoinkSize
@@ -14,7 +13,7 @@ public class Yoinkable : MonoBehaviour
     }
 
     [SerializeField] private YoinkSize _size;
-
+    
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
@@ -22,12 +21,7 @@ public class Yoinkable : MonoBehaviour
             if (other.TryGetComponent<Yoinker>(out var yoinker) 
                 && yoinker.YoinkLevel >= _size)
             {
-                Debug.Log("Get yoinked!");
-                yoinker.AttachYoinkable(transform);
-            }
-            else
-            {
-                Debug.Log("Couldn't yoink ;_;");
+                yoinker.Yoink(transform);
             }
         }
     }

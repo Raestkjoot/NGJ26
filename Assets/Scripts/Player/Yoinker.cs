@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class Yoinker : MonoBehaviour
@@ -14,17 +15,16 @@ public class Yoinker : MonoBehaviour
     /// </summary>
     /// <returns> True if successfully yoinked and attached. If already carrying something it will not
     /// carry more and will return false instead. </returns>
-    public bool AttachYoinkable(Transform yoinkedObject)
+    public bool Yoink(Transform yoinkedObject)
     {
         if (IsCarryingThing())
         {
             return false;
         }
 
+        yoinkedObject.GetComponent<Collider>().enabled = false;
         _attachedYoinkable = yoinkedObject;
         _attachedYoinkable.parent = _yoinkAttachementPoint;
-        _attachedYoinkable.gameObject.GetComponent<Collider>().enabled = false;
-        _attachedYoinkable.gameObject.GetComponent<Rigidbody>().useGravity = false;
         _attachedYoinkable.localPosition = Vector3.zero;
             
         return true;
@@ -42,20 +42,6 @@ public class Yoinker : MonoBehaviour
         }
         
         return yoinkable;
-    }
-
-    public bool DropYoinkable()
-    {
-        if (!IsCarryingThing())
-        {
-            return false;
-        }
-
-        _attachedYoinkable.gameObject.GetComponent<Collider>().enabled = true;
-        _attachedYoinkable.gameObject.GetComponent<Rigidbody>().useGravity = true;
-        _attachedYoinkable.parent = null;
-        _attachedYoinkable = null;
-        return true;
     }
 
     public bool IsCarryingThing()

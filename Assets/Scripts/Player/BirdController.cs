@@ -6,6 +6,7 @@ public class BirdController : MonoBehaviour
 {
     [Header("Basic flying")]
     [SerializeField] private Transform _bird;
+    [SerializeField] private Transform _birdRotationHandler;
     [SerializeField] private float _moveSpeed = 3.0f;
     [SerializeField] private float _acceleration = 3.0f;
     [SerializeField] private float _turnSpeed = 2.0f;
@@ -23,7 +24,7 @@ public class BirdController : MonoBehaviour
         _birdSprite = GetComponentInChildren<SpriteRenderer>();
         
         _cruiseHeight = _bird.position.y;
-        _moveDirection = _bird.forward;
+        _moveDirection = GetForwardVector();
     }
 
     private void Update()
@@ -43,17 +44,15 @@ public class BirdController : MonoBehaviour
         }
 
         Quaternion goalRotation = Quaternion.LookRotation(new Vector3(moveInput.x, 0.0f, moveInput.y), Vector3.up);
-        _bird.rotation = Quaternion.Slerp(_bird.rotation, goalRotation, _turnSpeed * Time.deltaTime);
+        _birdRotationHandler.rotation = Quaternion.Slerp(_birdRotationHandler.rotation, goalRotation, _turnSpeed * Time.deltaTime);
 
         // Flip sprite based on orientation
-        _birdSprite.flipY = Vector3.Dot(_bird.forward, Vector3.right) > 0.0f;
+        _birdSprite.flipY = Vector3.Dot(_birdRotationHandler.forward, Vector3.right) > 0.0f;
     }
 
     private void MoveForward()
     {
-        Vector3 forwardVector = _bird.forward;
-
-        _moveDirection = Vector3.Lerp(_moveDirection, _bird.forward, _acceleration * Time.deltaTime);
+        _moveDirection = Vector3.Lerp(_moveDirection, GetForwardVector(), _acceleration * Time.deltaTime);
         transform.Translate(_moveDirection * (_moveSpeed * Time.deltaTime));
     }
 
@@ -80,5 +79,10 @@ public class BirdController : MonoBehaviour
             
             _bird.position = position;
         }
+    }
+
+    private Vector3 GetForwardVector()
+    {
+        return _birdRotationHandler.forward;
     }
 }
