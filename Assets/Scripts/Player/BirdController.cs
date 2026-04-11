@@ -48,7 +48,7 @@ public class BirdController : MonoBehaviour
 
     private void UpdateYoink()
     {
-        if (InputManager.Instance.Yoink.IsPressed())
+        if (InputManager.Instance.GetIsYoinking())
         {
             if (_bird.position.y > (_cruiseHeight - _diveHeight))
             {

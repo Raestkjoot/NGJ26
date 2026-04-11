@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -31,8 +30,19 @@ public class InputManager : Singleton<InputManager>
     private const float MouseMoveThreshold = 1.0f;
     
     public Controls.UIActions UI => _controls.UI;
-    public InputAction Yoink => _controls.Gameplay.Yoink;
 
+    public bool GetIsYoinking()
+    {
+        if (_controls.Gameplay.Yoink.activeControl != null)
+        {
+            SetInputDeviceType(_controls.Gameplay.Yoink.activeControl.device.name.Equals("Mouse")
+                ? InputType.MouseAndKeyboard
+                : InputType.Gamepad);
+        }
+        
+        return _controls.Gameplay.Yoink.IsPressed();
+    }
+    
     public Vector2 GetMoveDirection()
     {
         _controls.Gameplay.Move.ReadValue<Vector2>();
@@ -42,8 +52,7 @@ public class InputManager : Singleton<InputManager>
         // If we get input from a gamepad that goes past deadzone, we switch to gamepad controls
         if (moveDirection != Vector2.zero)
         {
-            _currentInputType = InputType.Gamepad;
-            SetCursorVisibility(false);
+            SetInputDeviceType(InputType.Gamepad);
             return moveDirection;
         }
         
@@ -58,9 +67,8 @@ public class InputManager : Singleton<InputManager>
                 return moveDirection;
             }
         }
-        
-        SetCursorVisibility(true);
-        _currentInputType = InputType.MouseAndKeyboard;
+
+        SetInputDeviceType(InputType.MouseAndKeyboard);
 
         Vector2 screenCenter = new Vector2(Screen.width / 2.0f, Screen.height / 2.0f);
         moveDirection = (mousePosition - screenCenter).normalized;
@@ -98,6 +106,13 @@ public class InputManager : Singleton<InputManager>
         base.Awake();
         _controls = new();
         SetActionMap(ActionMap.Gameplay);
+    }
+
+    private void SetInputDeviceType(InputType inputType)
+    {
+        _currentInputType = inputType;
+        SetCursorVisibility(inputType == InputType.MouseAndKeyboard);
+        // TODO: make an event for when device changes. Could be useful for UI changes :eyes:
     }
 
     private void OnDisable()
