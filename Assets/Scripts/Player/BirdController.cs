@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-public class PlayerMovement : MonoBehaviour
+public class BirdController : MonoBehaviour
 {
     [Header("Basic flying")]
     [SerializeField] private Transform _birdSprite;
@@ -12,8 +12,11 @@ public class PlayerMovement : MonoBehaviour
     [Header("Yoinking")]
     [SerializeField] private float _diveSpeed = 1.5f;
     [SerializeField] private float _diveHeight = 1.6f;
+    [SerializeField] private Yoinkable.YoinkSize _yoinkLevel = Yoinkable.YoinkSize.Small;
 
     private float _cruiseHeight;
+
+    public Yoinkable.YoinkSize YoinkLevel => _yoinkLevel;
 
     private void Start()
     {
@@ -24,7 +27,31 @@ public class PlayerMovement : MonoBehaviour
     {
         UpdateRotation();
         MoveForward();
+        UpdateYoink();
+    }
 
+    private void UpdateRotation()
+    {
+        float sidewayInput = InputManager.Instance.Gameplay.Move.ReadValue<Vector2>().x;
+
+        if (sidewayInput > 0.1f)
+        {
+            _birdSprite.Rotate(Vector3.up, _rotationSpeed * Time.deltaTime, Space.World);
+        }
+        else if (sidewayInput < -0.1f)
+        {
+            _birdSprite.Rotate(Vector3.up, -_rotationSpeed * Time.deltaTime, Space.World);
+        }
+    }
+
+    private void MoveForward()
+    {
+        Vector3 forwardVector = _birdSprite.up;
+        transform.Translate(forwardVector * (_moveSpeed * Time.deltaTime));
+    }
+
+    private void UpdateYoink()
+    {
         if (InputManager.Instance.Gameplay.Jump.IsPressed())
         {
             if (_birdSprite.position.y > (_cruiseHeight - _diveHeight))
@@ -45,26 +72,6 @@ public class PlayerMovement : MonoBehaviour
             }
             
             _birdSprite.position = position;
-        }
-    }
-
-    private void MoveForward()
-    {
-        Vector3 forwardVector = _birdSprite.up;
-        transform.Translate(forwardVector * (_moveSpeed * Time.deltaTime));
-    }
-
-    private void UpdateRotation()
-    {
-        float sidewayInput = InputManager.Instance.Gameplay.Move.ReadValue<Vector2>().x;
-
-        if (sidewayInput > 0.1f)
-        {
-            _birdSprite.Rotate(Vector3.up, _rotationSpeed * Time.deltaTime, Space.World);
-        }
-        else if (sidewayInput < -0.1f)
-        {
-            _birdSprite.Rotate(Vector3.up, -_rotationSpeed * Time.deltaTime, Space.World);
         }
     }
 }
