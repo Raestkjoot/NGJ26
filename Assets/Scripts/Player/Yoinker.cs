@@ -6,6 +6,12 @@ public class Yoinker : MonoBehaviour
     [SerializeField] private Yoinkable.YoinkSize _yoinkLevel;
     [SerializeField] private Transform _yoinkAttachementPoint;
 
+    [SerializeField] private int _smallsToLevelUp = 10;
+    [SerializeField] private int _mediumsToLevelUp = 10;
+
+    private int _smallsRegistered = 0;
+    private int _mediumsRegistered = 0;
+    
     private Transform _attachedYoinkable = null;
     
     public Yoinkable.YoinkSize YoinkLevel => _yoinkLevel;
@@ -37,6 +43,8 @@ public class Yoinker : MonoBehaviour
         if (IsCarryingThing())
         {
             yoinkable = _attachedYoinkable;
+            var size = _attachedYoinkable.gameObject.GetComponent<Yoinkable>().Size;
+            RegisterYoinkedThing(size);
             _attachedYoinkable.parent = null;
             _attachedYoinkable = null;
         }
@@ -47,5 +55,28 @@ public class Yoinker : MonoBehaviour
     public bool IsCarryingThing()
     {
         return _attachedYoinkable != null;
+    }
+
+    private void RegisterYoinkedThing(Yoinkable.YoinkSize size)
+    {
+        switch (size)
+        {
+            case Yoinkable.YoinkSize.Small:
+                ++_smallsRegistered;
+                if (_smallsRegistered >= _smallsToLevelUp)
+                {
+                    ++_yoinkLevel;
+                }
+                break;
+            case Yoinkable.YoinkSize.Medium:
+                ++_mediumsRegistered;
+                if (_mediumsRegistered >= _mediumsToLevelUp)
+                {
+                    ++_yoinkLevel;
+                }
+                break;
+            default:
+                break;
+        }
     }
 }

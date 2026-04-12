@@ -13,6 +13,8 @@ public class Yoinkable : MonoBehaviour
     }
 
     [SerializeField] private YoinkSize _size;
+
+    public YoinkSize Size => _size;
     
     private void OnTriggerEnter(Collider other)
     {
