@@ -1,7 +1,6 @@
-using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class BirdController : MonoBehaviour
 {
@@ -16,6 +15,9 @@ public class BirdController : MonoBehaviour
     [SerializeField] private float _diveSpeed = 1.5f;
     [SerializeField] private float _diveHeight = 1.6f;
 
+    [Header("Visuals")]
+    [SerializeField] private List<Sprite> _sprites;
+    
     private float _cruiseHeight;
     private Vector3 _moveDirection;
     private SpriteRenderer _birdSprite;
@@ -48,8 +50,36 @@ public class BirdController : MonoBehaviour
         Quaternion goalRotation = Quaternion.LookRotation(new Vector3(moveInput.x, 0.0f, moveInput.y), Vector3.up);
         _birdRotationHandler.rotation = Quaternion.Slerp(_birdRotationHandler.rotation, goalRotation, _turnSpeed * Time.deltaTime);
 
-        // Flip sprite based on orientation
-        _birdSprite.flipY = Vector3.Dot(_birdRotationHandler.forward, Vector3.right) > 0.0f;
+        // Update sprite
+        float forwardness = Vector3.Dot(_birdRotationHandler.forward, Vector3.forward);
+        float rightedness = Vector3.Dot(_birdRotationHandler.forward, Vector3.right);
+            
+        //_birdSprite.flipX = forwardness > 0.0f;
+
+        if (Mathf.Abs(forwardness) >= Mathf.Abs(rightedness))
+        {
+            if (forwardness < 0.0f)
+            {
+                _birdSprite.sprite = _sprites[1];
+            }
+            else
+            {
+                _birdSprite.sprite = _sprites[0];
+            }
+        }
+        else
+        {
+            if (rightedness < 0.0f)
+            {
+                _birdSprite.sprite = _sprites[3];
+            }
+            else
+            {
+                _birdSprite.sprite = _sprites[2];
+            }
+        }
+        
+        Debug.Log("Orientation: " + Vector3.Dot(_birdRotationHandler.forward, Vector3.forward));
     }
 
     private void MoveForward()
