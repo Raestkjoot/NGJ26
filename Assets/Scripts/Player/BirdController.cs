@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -18,6 +19,7 @@ public class BirdController : MonoBehaviour
     private float _cruiseHeight;
     private Vector3 _moveDirection;
     private SpriteRenderer _birdSprite;
+    private bool _isYoinking = false;
 
     private void Start()
     {
@@ -58,27 +60,37 @@ public class BirdController : MonoBehaviour
 
     private void UpdateYoink()
     {
-        if (InputManager.Instance.GetIsYoinking())
+        if (!_isYoinking && InputManager.Instance.GetIsYoinking())
         {
-            if (_bird.position.y > (_cruiseHeight - _diveHeight))
-            {
-                Vector3 position = _bird.position;
-                position.y -= _diveSpeed * Time.deltaTime;
-                _bird.position = position;
-            }
+            StartCoroutine(Yoink());
         }
-        else if (_bird.position.y < _cruiseHeight)
-        {
-            Vector3 position = _bird.position;
-            position.y += _diveSpeed * Time.deltaTime;
+    }
 
-            if (position.y > _cruiseHeight)
-            {
-                position.y = _cruiseHeight;
-            }
+    private IEnumerator Yoink()
+    {
+        _isYoinking = true;
+        Vector3 position = _bird.position;
+        
+        while (_bird.position.y > (_cruiseHeight - _diveHeight))
+        {
+            position = _bird.position;
+            position.y -= _diveSpeed * Time.deltaTime;
+            _bird.position = position;
+            yield return null;
+        }
+
+        while (_bird.position.y < _cruiseHeight)
+        {
+            position = _bird.position;
+            position.y += _diveSpeed * Time.deltaTime;
             
             _bird.position = position;
+            yield return null;
         }
+        
+        position.y = _cruiseHeight;
+        _bird.position = position;
+        _isYoinking = false;
     }
 
     private Vector3 GetForwardVector()

@@ -40,7 +40,7 @@ public class InputManager : Singleton<InputManager>
                 : InputType.Gamepad);
         }
         
-        return _controls.Gameplay.Yoink.IsPressed();
+        return _controls.Gameplay.Yoink.WasPerformedThisFrame();
     }
     
     public Vector2 GetMoveDirection()
