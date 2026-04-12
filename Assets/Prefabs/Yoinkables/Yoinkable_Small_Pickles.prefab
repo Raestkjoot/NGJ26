@@ -10,7 +10,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 410635080694647004, guid: 56dc6459573a1639f814ac8f394f4ed8, type: 3}
       propertyPath: m_Name
-      value: Yoinkable
+      value: Yoinkable_Small_Pickles
+      objectReference: {fileID: 0}
+    - target: {fileID: 3484993221561604257, guid: 56dc6459573a1639f814ac8f394f4ed8, type: 3}
+      propertyPath: m_LayerOverridePriority
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6086172210405295487, guid: 56dc6459573a1639f814ac8f394f4ed8, type: 3}
       propertyPath: m_LocalPosition.x
