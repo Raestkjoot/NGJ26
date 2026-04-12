@@ -32,6 +32,10 @@ PrefabInstance:
       propertyPath: m_Center.y
       value: 0.34258562
       objectReference: {fileID: 0}
+    - target: {fileID: 3484993221561604257, guid: 56dc6459573a1639f814ac8f394f4ed8, type: 3}
+      propertyPath: m_LayerOverridePriority
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 3515795034675021328, guid: 56dc6459573a1639f814ac8f394f4ed8, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
