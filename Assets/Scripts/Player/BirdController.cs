@@ -83,8 +83,6 @@ public class BirdController : MonoBehaviour
                 _birdSprite.sprite = _sprites[2];
             }
         }
-        
-        Debug.Log("Orientation: " + Vector3.Dot(_birdRotationHandler.forward, Vector3.forward));
     }
 
     private void MoveForward()
