@@ -36,6 +36,11 @@ public class BirdController : MonoBehaviour
         UpdateRotation();
         MoveForward();
         UpdateYoink();
+        
+        if (InputManager.Instance.GetWasEscPressed())
+        {
+            MenuButtons.Instance.Reload();
+        }
     }
 
     private void UpdateRotation()

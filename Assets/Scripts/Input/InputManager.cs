@@ -42,6 +42,11 @@ public class InputManager : Singleton<InputManager>
         
         return _controls.Gameplay.Yoink.WasPerformedThisFrame();
     }
+
+    public bool GetWasEscPressed()
+    {
+        return _controls.Gameplay.Escape.WasPerformedThisFrame();
+    }
     
     public Vector2 GetMoveDirection()
     {
