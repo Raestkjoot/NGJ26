@@ -1,4 +1,5 @@
 using System;
+using TMPro;
 using UnityEngine;
 
 public class Yoinker : MonoBehaviour
@@ -6,6 +7,7 @@ public class Yoinker : MonoBehaviour
     [SerializeField] private Yoinkable.YoinkSize _yoinkLevel;
     [SerializeField] private Transform _yoinkAttachementPoint;
 
+    [SerializeField] private TMP_Text _levelText;
     [SerializeField] private int _smallsToLevelUp = 10;
     [SerializeField] private int _mediumsToLevelUp = 10;
 
@@ -66,6 +68,7 @@ public class Yoinker : MonoBehaviour
                 if (_smallsRegistered >= _smallsToLevelUp)
                 {
                     ++_yoinkLevel;
+                    _levelText.text = "Yoink Level: Medium";
                 }
                 break;
             case Yoinkable.YoinkSize.Medium:
@@ -73,6 +76,7 @@ public class Yoinker : MonoBehaviour
                 if (_mediumsRegistered >= _mediumsToLevelUp)
                 {
                     ++_yoinkLevel;
+                    _levelText.text = "Yoink Level: Big";
                 }
                 break;
             default:
