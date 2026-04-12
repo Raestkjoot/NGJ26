@@ -8,12 +8,13 @@ public class Nest : MonoBehaviour
     [SerializeField] private float _nestRadius;
     [SerializeField] private float _nestHeight;
 
-    private void OnValidate()
-    {
-        VisualDebug.Instance.DrawSphere(_nestPosition.position, _nestRadius, Color.rebeccaPurple, 1.0f);
-        VisualDebug.Instance.DrawSphere(_nestPosition.position, _nestHeight, Color.brown, 1.0f);
-    }
-
+    [SerializeField] private Transform _min;
+    [SerializeField] private Transform _max;
+    [SerializeField] private float _maxThings = 20.0f;
+    [SerializeField] private float _sideVariance = 1.0f;
+    
+    private float _progress = 0.0f;
+    
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
@@ -21,13 +22,19 @@ public class Nest : MonoBehaviour
             if (other.TryGetComponent<Yoinker>(out var yoinker) 
                 && yoinker.IsCarryingThing())
             {
-                Transform thing = yoinker.TakeYoinkable();
-
-                Vector2 randomCircle = Random.insideUnitCircle * _nestRadius;
-                Vector3 nestOffsetPosition = new Vector3(randomCircle.x, _nestHeight, randomCircle.y);
-                thing.position = _nestPosition.position + nestOffsetPosition;
-                thing.parent = transform;
+                AddYoinkable(yoinker.TakeYoinkable());
             }
         }
+    }
+
+    private void AddYoinkable(Transform thing)
+    {
+        _progress++;
+        float t = _progress / _maxThings;
+        Vector3 nestPoint = Vector3.Lerp(_min.position, _max.position, t);
+        nestPoint.x += Random.Range(-_sideVariance, _sideVariance);
+        
+        thing.position = nestPoint;
+        thing.parent = transform;
     }
 }
