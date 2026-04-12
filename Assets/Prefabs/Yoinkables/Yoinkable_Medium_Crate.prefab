@@ -34,7 +34,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3484993221561604257, guid: 56dc6459573a1639f814ac8f394f4ed8, type: 3}
       propertyPath: m_LayerOverridePriority
-      value: 2
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 3515795034675021328, guid: 56dc6459573a1639f814ac8f394f4ed8, type: 3}
       propertyPath: m_LocalScale.x
@@ -54,15 +54,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6086172210405295487, guid: 56dc6459573a1639f814ac8f394f4ed8, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.8640957
+      value: 2.7700002
       objectReference: {fileID: 0}
     - target: {fileID: 6086172210405295487, guid: 56dc6459573a1639f814ac8f394f4ed8, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.00999979
+      value: 0.67
       objectReference: {fileID: 0}
     - target: {fileID: 6086172210405295487, guid: 56dc6459573a1639f814ac8f394f4ed8, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -2.3835003
+      value: -3.37
       objectReference: {fileID: 0}
     - target: {fileID: 6086172210405295487, guid: 56dc6459573a1639f814ac8f394f4ed8, type: 3}
       propertyPath: m_LocalRotation.w
@@ -96,6 +96,10 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 5b7e7a5d9fe080d42926c6c5b3dd5bc8, type: 3}
+    - target: {fileID: 9080153456085119830, guid: 56dc6459573a1639f814ac8f394f4ed8, type: 3}
+      propertyPath: m_SortingOrder
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
